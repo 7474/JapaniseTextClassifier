@@ -1,7 +1,7 @@
 ﻿{
   "HasError": false,
   "Config": {
-    "ResultDataDir": "./results",
+    "ResultDataDir": "./Sample/Results",
     "NormalizerName": "HtmlNormalizer",
     "TranslatorName": "AzureTranslator",
     "ClassifierName": "AzureClassifier"
@@ -25,5 +25,8 @@
     }
   ],
   "NormalizedText": " 昨日夏休みだったので、今日は日曜日感が高まっているのだけれど、どう考えても平日で稼働日なので夜更かしするとヤバいけれど、昼間仮眠していたのでまるで眠くない。 ",
-  "TranslatedText": " Because it was summer vacation yesterday, i feel more sunday today, but it's a working day on weekdays, so it's a working day, so i'm not sleepy because I took a nap during the day. "
+  "TranslatedText": " Because it was summer vacation yesterday, i feel more sunday today, but it's a working day on weekdays, so it's a working day, so i'm not sleepy because I took a nap during the day. ",
+  "AdultScore": 0.0035628611221909523,
+  "RacyScore": 0.11634134501218796,
+  "OffensiveScore": 0.0
 }

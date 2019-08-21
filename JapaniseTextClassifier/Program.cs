@@ -24,7 +24,8 @@ namespace JapaniseTextClassifier
             var inputs = args.SelectMany(x => Directory.GetFiles(Path.GetDirectoryName(x), Path.GetFileName(x)))
                 .Select(x => new TextInput(x)).ToList();
             var executor = ServiceProvider.GetRequiredService<JapaniseTextClassifier>();
-            var results = executor.Execute(inputs);
+            var config = ServiceProvider.GetRequiredService<ExecuteConfig>();
+            var results = executor.ExecuteBulk(inputs, config);
 
             // XXX 仮出力
             results.ToList().ForEach(x =>
@@ -107,7 +108,7 @@ namespace JapaniseTextClassifier
     }
 
     // XXX ふぁいるのかずをふやすのがめんどうくさい
-    class ExecuteConfig : IAzureTranslatorConfig, IAzureClassifierConfig
+    class ExecuteConfig : IJapaniseTextClassifierExecuteConfig, IAzureTranslatorConfig, IAzureClassifierConfig
     {
         public string ResultDataDir { get; set; }
 
@@ -125,87 +126,5 @@ namespace JapaniseTextClassifier
         string IAzureTranslatorConfig.SubscriptionKey => AzureTranslatorSubscriptionKey;
 
         string IAzureClassifierConfig.SubscriptionKey => AzureClassifierSubscriptionKey;
-    }
-
-    interface IJapaniseTextClassifier
-    {
-        IEnumerable<TextResult> Execute(IEnumerable<TextInput> inputs);
-        TextResult Execute(TextInput input);
-    }
-
-    class JapaniseTextClassifier : IJapaniseTextClassifier
-    {
-        private ExecuteConfig config;
-        public JapaniseTextClassifier(
-            ICollection<ITranslator> translators,
-            ICollection<IClassifier> classifiers,
-            ExecuteConfig executeConfig)
-        {
-            translatorDic = translators.ToDictionary(x => x.Name);
-            classifierDic = classifiers.ToDictionary(x => x.Name);
-            config = executeConfig;
-        }
-
-        public IEnumerable<TextResult> Execute(IEnumerable<TextInput> inputs)
-        {
-            return inputs.Select(x =>
-            {
-                //
-                try
-                {
-                    return Execute(x);
-                }
-                catch (Exception ex)
-                {
-                    // 死ぬときは独りさ
-                    // XXX ロガー
-                    System.Console.WriteLine(ex);
-                    return new TextResult()
-                    {
-                        Config = config,
-                        Input = x,
-                        Categories = new Category[] { },
-                        HasError = true,
-                    };
-                }
-            });
-        }
-
-        public TextResult Execute(TextInput input)
-        {
-            var result = new TextResult()
-            {
-                Config = config,
-                Input = input,
-            };
-
-            result.NormalizedText = GetNormalizer(config.NormalizerName).Normalize(input.RawText);
-            result.TranslatedText = GetTransrator(config.TranslatorName).Translate(result.NormalizedText);
-            result.Categories = GetClassifier(config.ClassifierName).Classify(result.TranslatedText);
-
-            // XXX はじめから全般に非同期で書けばよかった
-            // XXX レートリミット対応は各実装で閉じさせる＆非同期メソッドにしたいね
-            Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-
-            return result;
-        }
-
-        // XXX DIするのめんどうくさい
-
-        private INormalizer normalizer = new HtmlNormalizer();
-        private INormalizer GetNormalizer(string name)
-        {
-            return normalizer;
-        }
-        private IDictionary<string, ITranslator> translatorDic;
-        private ITranslator GetTransrator(string name)
-        {
-            return translatorDic[name];
-        }
-        private IDictionary<string, IClassifier> classifierDic;
-        private IClassifier GetClassifier(string name)
-        {
-            return classifierDic[name];
-        }
     }
 }
