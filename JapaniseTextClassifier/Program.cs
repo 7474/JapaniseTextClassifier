@@ -5,25 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace JapaniseTextClassifier
 {
     class Program
     {
+        static IConfigurationRoot Configuration;
+        static ServiceProvider ServiceProvider;
+
         static void Main(string[] args)
         {
-            // XXX こんふぃぐれーしょん
-            var config = new ExecuteConfig()
-            {
-                ResultDataDir = "./results",
-                //
-                NormalizerName = "HtmlNormalizer",
-                TranslatorName = "AzureTranslator",
-                ClassifierName = "AzureClassifier",
-                //
-                AzureTranslatorSubscriptionKey = "XXX",
-                AzureClassifierSubscriptionKey = "XXX",
-            };
+            Startup();
+
+            var config = ServiceProvider.GetService<IOptions<ExecuteConfig>>().Value;
             var inputs = args.SelectMany(x => Directory.GetFiles(Path.GetDirectoryName(x), Path.GetFileName(x)))
                 .Select(x => new TextInput(x)).ToList();
             IExecutor executor = new Executor(new AzureTranslator(config), new AzureClassifier(config));
@@ -42,6 +40,47 @@ namespace JapaniseTextClassifier
                     string.Join(" ", x.Categories.Select(c => c.Name + ":" + c.Score))
                 ));
             });
+        }
+
+        private static void Startup()
+        {
+            // https://stackoverflow.com/questions/38114761/asp-net-core-configuration-for-net-core-console-application
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            Console.WriteLine("Environment: {0}", environment);
+
+
+            // Set up configuration sources.
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Path.Combine(AppContext.BaseDirectory))
+                .AddJsonFile("appsettings.json", optional: false);
+            if (environment == "Development")
+            {
+                builder.AddJsonFile(
+                        Path.Combine(AppContext.BaseDirectory, string.Format("..{0}..{0}..{0}", Path.DirectorySeparatorChar), $"appsettings.{environment}.json"),
+                        optional: true
+                    );
+            }
+            else if (!string.IsNullOrEmpty(environment))
+            {
+                builder.AddJsonFile($"appsettings.{environment}.json", optional: true);
+            }
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+
+            var services = new ServiceCollection();
+            services.AddLogging(configure =>
+            {
+                configure.AddConsole().AddDebug();
+            });
+            services.AddOptions();
+            services.Configure<ExecuteConfig>(Configuration.GetSection("ExecuteConfig"));
+
+            services.AddSingleton<HtmlNormalizer>();
+            services.AddSingleton<AzureTranslator>();
+            services.AddSingleton<AzureClassifier>();
+
+            ServiceProvider = services.BuildServiceProvider();
         }
     }
 
