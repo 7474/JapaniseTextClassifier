@@ -19,5 +19,5 @@ jobs:
       uses: JasonEtco/upload-to-release@master
       with:
         args: "/home/runner/work/JapaniseTextClassifier/JapaniseTextClassifier/JapaniseTextClassifier/bin/Debug/netcoreapp2.2/JapaniseTextClassifier.dll"
-      secrets: 
-        GITHUB_TOKEN
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
