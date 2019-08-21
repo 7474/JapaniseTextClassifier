@@ -1,0 +1,29 @@
+﻿{
+  "HasError": false,
+  "Config": {
+    "ResultDataDir": "./results",
+    "NormalizerName": "HtmlNormalizer",
+    "TranslatorName": "AzureTranslator",
+    "ClassifierName": "AzureClassifier"
+  },
+  "Input": {
+    "Key": "fuga.html",
+    "RawText": "<span class=\"css-901oao css-16my406 r-gwet1z r-ad9z0x r-bcqeeo r-qvutc0\">昨日夏休みだったので、今日は日曜日感が高まっているのだけれど、どう考えても平日で稼働日なので夜更かしするとヤバいけれど、昼間仮眠していたのでまるで眠くない。</span>"
+  },
+  "Categories": [
+    {
+      "Name": "Adult",
+      "Score": 0.0035628611221909523
+    },
+    {
+      "Name": "Racy",
+      "Score": 0.11634134501218796
+    },
+    {
+      "Name": "Offensive ",
+      "Score": 0.063840650022029877
+    }
+  ],
+  "NormalizedText": " 昨日夏休みだったので、今日は日曜日感が高まっているのだけれど、どう考えても平日で稼働日なので夜更かしするとヤバいけれど、昼間仮眠していたのでまるで眠くない。 ",
+  "TranslatedText": " Because it was summer vacation yesterday, i feel more sunday today, but it's a working day on weekdays, so it's a working day, so i'm not sleepy because I took a nap during the day. "
+}

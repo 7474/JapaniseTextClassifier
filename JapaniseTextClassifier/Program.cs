@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace JapaniseTextClassifier
@@ -11,7 +12,6 @@ namespace JapaniseTextClassifier
     {
         static void Main(string[] args)
         {
-
             // XXX こんふぃぐれーしょん
             var config = new ExecuteConfig()
             {
@@ -21,8 +21,8 @@ namespace JapaniseTextClassifier
                 TranslatorName = "AzureTranslator",
                 ClassifierName = "AzureClassifier",
                 //
-                AzureTranslatorSubscriptionKey = "HtmlNormalizer",
-                AzureClassifierSubscriptionKey = "HtmlNormalizer",
+                AzureTranslatorSubscriptionKey = "XXX",
+                AzureClassifierSubscriptionKey = "XXX",
             };
             var inputs = args.SelectMany(x => Directory.GetFiles(Path.GetDirectoryName(x), Path.GetFileName(x)))
                 .Select(x => new TextInput(x)).ToList();
@@ -68,6 +68,7 @@ namespace JapaniseTextClassifier
 
     interface IExecutor
     {
+        // XXX メモリにあんまり抱えたくないからEnumerableにする
         ICollection<TextResult> Execute(ICollection<TextInput> inputs, ExecuteConfig config);
         TextResult Execute(TextInput input, ExecuteConfig config);
     }
@@ -88,7 +89,27 @@ namespace JapaniseTextClassifier
 
         public ICollection<TextResult> Execute(ICollection<TextInput> inputs, ExecuteConfig config)
         {
-            return inputs.Select(x => Execute(x, config)).ToList();
+            return inputs.Select(x =>
+            {
+                //
+                try
+                {
+                    return Execute(x, config);
+                }
+                catch (Exception ex)
+                {
+                    // 死ぬときは独りさ
+                    // XXX ロガー
+                    System.Console.WriteLine(ex);
+                    return new TextResult()
+                    {
+                        Config = config,
+                        Input = x,
+                        Categories = new Category[] { },
+                        HasError = true,
+                    };
+                }
+            }).ToList();
         }
 
         public TextResult Execute(TextInput input, ExecuteConfig config)
@@ -102,6 +123,10 @@ namespace JapaniseTextClassifier
             result.NormalizedText = GetNormalizer(config.NormalizerName).Normalize(input.RawText);
             result.TranslatedText = GetTransrator(config.TranslatorName).Translate(result.NormalizedText);
             result.Categories = GetClassifier(config.ClassifierName).Classify(result.TranslatedText);
+
+            // XXX はじめから全般に非同期で書けばよかった
+            // XXX レートリミット対応は各実装で閉じさせる＆非同期メソッドにしたいね
+            Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
             return result;
         }

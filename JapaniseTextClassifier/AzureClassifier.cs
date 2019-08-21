@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Azure.CognitiveServices.ContentModerator;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace JapaniseTextClassifier
@@ -11,28 +13,63 @@ namespace JapaniseTextClassifier
 
     class AzureClassifier : IClassifier
     {
+        // https://docs.microsoft.com/ja-jp/azure/cognitive-services/content-moderator/text-moderation-quickstart-dotnet
+        private static readonly string AzureRegion = "japaneast";
+        private static readonly string AzureBaseURL = $"https://{AzureRegion}.api.cognitive.microsoft.com";
+
         private IAzureClassifierConfig _config;
+        private ContentModeratorClient client;
         public AzureClassifier(IAzureClassifierConfig config)
         {
             _config = config;
+
+            client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(_config.SubscriptionKey));
+            client.Endpoint = AzureBaseURL;
         }
         public string Name { get { return "AzureClassifier"; } }
 
         public ICollection<Category> Classify(string text)
         {
-            return new List<Category>()
+            // https://azure.microsoft.com/ja-jp/pricing/details/cognitive-services/content-moderator/
+            // XXX テキストの最大文字長は 1024 です。
+            var screenResult = client.TextModeration.ScreenText(
+                "text/plain",
+                // エラーするよりはいい、エラーするよりはな
+                new MemoryStream(Encoding.UTF8.GetBytes(text.Length > 1024 ? text.Substring(0, 1024) : text)),
+                language: "eng",
+                classify: true
+            );
+
+            // XXX ロガー
+            System.Console.WriteLine(JsonConvert.SerializeObject(screenResult));
+
+            var results = new List<Category>();
+            if (screenResult.Classification.Category1.Score.HasValue)
             {
-                new Category()
+                results.Add(new Category()
                 {
                     Name = "Adult",
-                    Score = 1.0,
-                },
-                new Category()
+                    Score = screenResult.Classification.Category1.Score.Value,
+                });
+            }
+            if (screenResult.Classification.Category2.Score.HasValue)
+            {
+                results.Add(new Category()
                 {
-                    Name = "Tensei",
-                    Score = 0.5,
-                },
-            };
+                    Name = "Racy",
+                    Score = screenResult.Classification.Category2.Score.Value,
+                });
+            }
+            if (screenResult.Classification.Category3.Score.HasValue)
+            {
+                results.Add(new Category()
+                {
+                    Name = "Offensive ",
+                    Score = screenResult.Classification.Category3.Score.Value,
+                });
+            }
+
+            return results;
         }
     }
 }

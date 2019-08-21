@@ -6,6 +6,9 @@ namespace JapaniseTextClassifier
 {
     class TextResult
     {
+        // XXX 気が向いたら列挙値にするよ
+        public bool HasError { get; set; }
+
         public ExecuteConfig Config { get; set; }
         public TextInput Input { get; set; }
         public ICollection<Category> Categories { get; set; }
