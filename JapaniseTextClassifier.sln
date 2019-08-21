@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JapaniseTextClassifier", "JapaniseTextClassifier\JapaniseTextClassifier.csproj", "{6531DDEC-4839-44D7-827C-63678D172203}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6531DDEC-4839-44D7-827C-63678D172203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6531DDEC-4839-44D7-827C-63678D172203}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6531DDEC-4839-44D7-827C-63678D172203}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6531DDEC-4839-44D7-827C-63678D172203}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5184F726-BF69-4228-A409-6CB9D3B1E814}
+	EndGlobalSection
+EndGlobal
