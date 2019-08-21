@@ -15,3 +15,8 @@ jobs:
         dotnet-version: '2.2.103'
     - name: Build solution
       run: dotnet build 
+    - name: Release solution
+      uses: JasonEtco/upload-to-release@master
+      args: "/home/runner/work/JapaniseTextClassifier/JapaniseTextClassifier/JapaniseTextClassifier/bin/Debug/netcoreapp2.2/JapaniseTextClassifier.dll"
+      secrets: 
+        GITHUB_TOKEN
