@@ -21,23 +21,25 @@ namespace JapaniseTextClassifier
         {
             Startup();
 
-            var config = ServiceProvider.GetService<IOptions<ExecuteConfig>>().Value;
             var inputs = args.SelectMany(x => Directory.GetFiles(Path.GetDirectoryName(x), Path.GetFileName(x)))
                 .Select(x => new TextInput(x)).ToList();
-            IExecutor executor = new Executor(new AzureTranslator(config), new AzureClassifier(config));
-            var results = executor.Execute(inputs, config);
+            var executor = ServiceProvider.GetRequiredService<JapaniseTextClassifier>();
+            var results = executor.Execute(inputs);
 
             // XXX 仮出力
             results.ToList().ForEach(x =>
             {
                 var json = JsonConvert.SerializeObject(x, Formatting.Indented);
-                var path = Path.Combine(config.ResultDataDir, x.Input.Key + ".json");
+                var path = Path.Combine(x.Config.ResultDataDir, x.Input.Key + ".json");
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 File.WriteAllText(path, json, Encoding.UTF8);
 
                 Console.WriteLine(string.Join(",",
                     x.Input.Key,
-                    string.Join(" ", x.Categories.Select(c => c.Name + ":" + c.Score))
+                    string.Join(" ", x.Categories.Select(c => c.Name + ":" + c.Score)),
+                    x.AdultScore,
+                    x.RacyScore,
+                    x.OffensiveScore
                 ));
             });
         }
@@ -73,12 +75,32 @@ namespace JapaniseTextClassifier
             {
                 configure.AddConsole().AddDebug();
             });
-            services.AddOptions();
-            services.Configure<ExecuteConfig>(Configuration.GetSection("ExecuteConfig"));
+            // 実行中に変化はしないのでOptionsは構成しない
+            var executeConfig = new ExecuteConfig();
+            Configuration.Bind("ExecuteConfig", executeConfig);
+            services.AddSingleton(executeConfig);
+            services.AddSingleton<IAzureTranslatorConfig>(executeConfig);
+            services.AddSingleton<IAzureClassifierConfig>(executeConfig);
 
             services.AddSingleton<HtmlNormalizer>();
             services.AddSingleton<AzureTranslator>();
             services.AddSingleton<AzureClassifier>();
+
+            services.AddSingleton<ICollection<ITranslator>>(f =>
+            {
+                return new List<ITranslator>()
+                {
+                    f.GetService<AzureTranslator>(),
+                };
+            });
+            services.AddSingleton<ICollection<IClassifier>>(f =>
+            {
+                return new List<IClassifier>()
+                {
+                    f.GetService<AzureClassifier>(),
+                };
+            });
+            services.AddSingleton<JapaniseTextClassifier>();
 
             ServiceProvider = services.BuildServiceProvider();
         }
@@ -105,35 +127,33 @@ namespace JapaniseTextClassifier
         string IAzureClassifierConfig.SubscriptionKey => AzureClassifierSubscriptionKey;
     }
 
-    interface IExecutor
+    interface IJapaniseTextClassifier
     {
-        // XXX メモリにあんまり抱えたくないからEnumerableにする
-        ICollection<TextResult> Execute(ICollection<TextInput> inputs, ExecuteConfig config);
-        TextResult Execute(TextInput input, ExecuteConfig config);
+        IEnumerable<TextResult> Execute(IEnumerable<TextInput> inputs);
+        TextResult Execute(TextInput input);
     }
 
-    class Executor : IExecutor
+    class JapaniseTextClassifier : IJapaniseTextClassifier
     {
-        public Executor(ITranslator translator, IClassifier classifier)
+        private ExecuteConfig config;
+        public JapaniseTextClassifier(
+            ICollection<ITranslator> translators,
+            ICollection<IClassifier> classifiers,
+            ExecuteConfig executeConfig)
         {
-            translators = new Dictionary<string, ITranslator>
-            {
-                { translator.Name, translator },
-            };
-            classifiers = new Dictionary<string, IClassifier>
-            {
-                { classifier.Name, classifier },
-            };
+            translatorDic = translators.ToDictionary(x => x.Name);
+            classifierDic = classifiers.ToDictionary(x => x.Name);
+            config = executeConfig;
         }
 
-        public ICollection<TextResult> Execute(ICollection<TextInput> inputs, ExecuteConfig config)
+        public IEnumerable<TextResult> Execute(IEnumerable<TextInput> inputs)
         {
             return inputs.Select(x =>
             {
                 //
                 try
                 {
-                    return Execute(x, config);
+                    return Execute(x);
                 }
                 catch (Exception ex)
                 {
@@ -148,10 +168,10 @@ namespace JapaniseTextClassifier
                         HasError = true,
                     };
                 }
-            }).ToList();
+            });
         }
 
-        public TextResult Execute(TextInput input, ExecuteConfig config)
+        public TextResult Execute(TextInput input)
         {
             var result = new TextResult()
             {
@@ -177,15 +197,15 @@ namespace JapaniseTextClassifier
         {
             return normalizer;
         }
-        private IDictionary<string, ITranslator> translators;
+        private IDictionary<string, ITranslator> translatorDic;
         private ITranslator GetTransrator(string name)
         {
-            return translators[name];
+            return translatorDic[name];
         }
-        private IDictionary<string, IClassifier> classifiers;
+        private IDictionary<string, IClassifier> classifierDic;
         private IClassifier GetClassifier(string name)
         {
-            return classifiers[name];
+            return classifierDic[name];
         }
     }
 }
