@@ -23,6 +23,10 @@ jobs:
       with:
         name: JapaniseTextClassifier
         path: JapaniseTextClassifier.zip
+    - name: Github Create Release
+      uses: frankjuniorr/github-create-release-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Release solution
       uses: JasonEtco/upload-to-release@master
       with:
