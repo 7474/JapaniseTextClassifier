@@ -82,16 +82,19 @@ namespace JapaniseTextClassifier
             services.AddSingleton(executeConfig);
             services.AddSingleton<IAzureTranslatorConfig>(executeConfig);
             services.AddSingleton<IAzureClassifierConfig>(executeConfig);
+            services.AddSingleton<IGcpTranslatorConfig>(executeConfig);
 
             services.AddSingleton<HtmlNormalizer>();
             services.AddSingleton<AzureTranslator>();
             services.AddSingleton<AzureClassifier>();
+            services.AddSingleton<GcpTranslator>();
 
             services.AddSingleton<ICollection<ITranslator>>(f =>
             {
                 return new List<ITranslator>()
                 {
                     f.GetService<AzureTranslator>(),
+                    f.GetService<GcpTranslator>(),
                 };
             });
             services.AddSingleton<ICollection<IClassifier>>(f =>
@@ -108,7 +111,9 @@ namespace JapaniseTextClassifier
     }
 
     // XXX ふぁいるのかずをふやすのがめんどうくさい
-    class ExecuteConfig : IJapaniseTextClassifierExecuteConfig, IAzureTranslatorConfig, IAzureClassifierConfig
+    class ExecuteConfig : IJapaniseTextClassifierExecuteConfig,
+        IAzureTranslatorConfig, IAzureClassifierConfig,
+        IGcpTranslatorConfig
     {
         public string ResultDataDir { get; set; }
 
@@ -122,9 +127,14 @@ namespace JapaniseTextClassifier
         [JsonIgnore]
         public string AzureClassifierSubscriptionKey { get; set; }
         //
+        [JsonIgnore]
+        public string GcpTranslatorApiKey { get; set; }
+        //
 
         string IAzureTranslatorConfig.SubscriptionKey => AzureTranslatorSubscriptionKey;
 
         string IAzureClassifierConfig.SubscriptionKey => AzureClassifierSubscriptionKey;
+
+        string IGcpTranslatorConfig.ApiKey => GcpTranslatorApiKey;
     }
 }

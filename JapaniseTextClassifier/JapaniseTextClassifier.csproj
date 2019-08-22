@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="CognitiveServices.Translator.Client" Version="1.0.0" />
+    <PackageReference Include="Google.Cloud.Translation.V2" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
