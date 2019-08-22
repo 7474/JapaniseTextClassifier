@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - run: mkdir bin
     - uses: actions/checkout@v1
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -15,9 +16,14 @@ jobs:
         dotnet-version: '2.2.103'
     - name: Build solution
       run: dotnet build 
+    - run: cp JapaniseTextClassifier/bin/Debug/netcoreapp2.2/JapaniseTextClassifier.dll bin/
+    - uses: actions/upload-artifact@master
+      with:
+        name: JapaniseTextClassifier
+        path: bin/JapaniseTextClassifier.dll
     - name: Release solution
       uses: JasonEtco/upload-to-release@master
       with:
-        args: "/home/runner/work/JapaniseTextClassifier/JapaniseTextClassifier/JapaniseTextClassifier/bin/Debug/netcoreapp2.2/JapaniseTextClassifier.dll"
+        args: bin/JapaniseTextClassifier.dll
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
