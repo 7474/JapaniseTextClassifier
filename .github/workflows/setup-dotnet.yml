@@ -19,13 +19,13 @@ jobs:
     - run: pwd
     - run: ls -la
     - run: zip -r JapaniseTextClassifier.zip JapaniseTextClassifier/bin/Debug/netcoreapp2.2/*
-    #- uses: actions/upload-artifact@master
-    #  with:
-    #    name: JapaniseTextClassifier
-    #    path: bin/JapaniseTextClassifier.dll
+    - uses: actions/upload-artifact@master
+      with:
+        name: JapaniseTextClassifier
+        path: JapaniseTextClassifier.zip
     - name: Release solution
       uses: JasonEtco/upload-to-release@master
       with:
-        args: JapaniseTextClassifier.zip
+        args: JapaniseTextClassifier.zip application/zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
