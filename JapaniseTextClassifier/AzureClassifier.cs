@@ -64,7 +64,7 @@ namespace JapaniseTextClassifier
             {
                 results.Add(new Category()
                 {
-                    Name = "Offensive ",
+                    Name = "Offensive",
                     Score = screenResult.Classification.Category3.Score.Value,
                 });
             }
