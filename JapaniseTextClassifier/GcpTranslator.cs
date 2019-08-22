@@ -14,6 +14,7 @@ namespace JapaniseTextClassifier
 
     class GcpTranslator : ITranslator
     {
+        // https://cloud.google.com/translate/docs/quickstart-client-libraries
         private readonly ILogger _logger;
         private TranslationClient client;
         public string Name => "GcpTranslator";

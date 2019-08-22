@@ -83,11 +83,13 @@ namespace JapaniseTextClassifier
             services.AddSingleton<IAzureTranslatorConfig>(executeConfig);
             services.AddSingleton<IAzureClassifierConfig>(executeConfig);
             services.AddSingleton<IGcpTranslatorConfig>(executeConfig);
+            services.AddSingleton<IGcpClassifierConfig>(executeConfig);
 
             services.AddSingleton<HtmlNormalizer>();
             services.AddSingleton<AzureTranslator>();
             services.AddSingleton<AzureClassifier>();
             services.AddSingleton<GcpTranslator>();
+            services.AddSingleton<GcpClassifier>();
 
             services.AddSingleton<ICollection<ITranslator>>(f =>
             {
@@ -102,6 +104,7 @@ namespace JapaniseTextClassifier
                 return new List<IClassifier>()
                 {
                     f.GetService<AzureClassifier>(),
+                    f.GetService<GcpClassifier>(),
                 };
             });
             services.AddSingleton<JapaniseTextClassifier>();
@@ -113,7 +116,7 @@ namespace JapaniseTextClassifier
     // XXX ふぁいるのかずをふやすのがめんどうくさい
     class ExecuteConfig : IJapaniseTextClassifierExecuteConfig,
         IAzureTranslatorConfig, IAzureClassifierConfig,
-        IGcpTranslatorConfig
+        IGcpTranslatorConfig, IGcpClassifierConfig
     {
         public string ResultDataDir { get; set; }
 

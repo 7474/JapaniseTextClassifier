@@ -341,3 +341,4 @@ healthchecksdb
 
 # Local settings
 /JapaniseTextClassifier/appsettings.Development.json
+/JapaniseTextClassifier/google-application-credentials.json

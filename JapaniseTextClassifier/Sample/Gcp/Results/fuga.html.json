@@ -4,29 +4,16 @@
     "ResultDataDir": "./Sample/Results",
     "NormalizerName": "HtmlNormalizer",
     "TranslatorName": "GcpTranslator",
-    "ClassifierName": "AzureClassifier"
+    "ClassifierName": "GcpClassifier"
   },
   "Input": {
     "Key": "fuga.html",
     "RawText": "<span class=\"css-901oao css-16my406 r-gwet1z r-ad9z0x r-bcqeeo r-qvutc0\">昨日夏休みだったので、今日は日曜日感が高まっているのだけれど、どう考えても平日で稼働日なので夜更かしするとヤバいけれど、昼間仮眠していたのでまるで眠くない。</span>"
   },
-  "Categories": [
-    {
-      "Name": "Adult",
-      "Score": 0.00050350831588730216
-    },
-    {
-      "Name": "Racy",
-      "Score": 0.33361098170280457
-    },
-    {
-      "Name": "Offensive",
-      "Score": 0.029310503974556923
-    }
-  ],
+  "Categories": [],
   "NormalizedText": " 昨日夏休みだったので、今日は日曜日感が高まっているのだけれど、どう考えても平日で稼働日なので夜更かしするとヤバいけれど、昼間仮眠していたのでまるで眠くない。 ",
   "TranslatedText": " Yesterday it was summer vacation, so today's feelings of Sunday are increasing, but it's a workday on a weekday, so it's dangerous to stay up late, but I was nap in the daytime so I'm not sleepy.",
-  "AdultScore": 0.00050350831588730216,
-  "RacyScore": 0.33361098170280457,
-  "OffensiveScore": 0.029310503974556923
+  "AdultScore": 0.0,
+  "RacyScore": 0.0,
+  "OffensiveScore": 0.0
 }

@@ -4,7 +4,7 @@
     "ResultDataDir": "./Sample/Results",
     "NormalizerName": "HtmlNormalizer",
     "TranslatorName": "GcpTranslator",
-    "ClassifierName": "AzureClassifier"
+    "ClassifierName": "GcpClassifier"
   },
   "Input": {
     "Key": "hoge.html",
@@ -12,21 +12,13 @@
   },
   "Categories": [
     {
-      "Name": "Adult",
-      "Score": 0.017164984717965126
-    },
-    {
-      "Name": "Racy",
-      "Score": 0.94551032781600952
-    },
-    {
-      "Name": "Offensive",
-      "Score": 0.98799997568130493
+      "Name": "/People & Society",
+      "Score": 0.67000001668930054
     }
   ],
   "NormalizedText": " 攻撃的で間接的に性的なコンテンツとして扱われることを期待しているコンテンツ \r\n \r\n ALTの展開なんていうハイカラなノーマライズは面倒くさいので「水着姿のグラビアアイドルが扇情的なポーズで挑発している写真」って手で書く。 \r\n まぁ、いい感じに翻訳されたり、アダルトなコンテンツとみなされるだなんて全く期待していないけれどね！ \r\n 所詮メリケンが作ったAPIなんて日本語対応はクソみたいなもんだよ！！！ \r\n 馬鹿！　間抜け！！　オタンコナス！！！ ",
   "TranslatedText": " Content that is expected to be treated as offensive and indirectly sexual content\r\n \r\n Since the normalization of ALT development is annoying, I write by hand “a photo of a gravure idol in a swimsuit provoking in a sensational pose”.\r\n Well, I don't expect it to be translated nicely or considered adult content!\r\n After all, the API made by Meriken is like fucking Japanese! ! !\r\n fool! !! ! Otankonas! ! !",
-  "AdultScore": 0.017164984717965126,
-  "RacyScore": 0.94551032781600952,
-  "OffensiveScore": 0.98799997568130493
+  "AdultScore": 0.0,
+  "RacyScore": 0.0,
+  "OffensiveScore": 0.0
 }
