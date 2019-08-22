@@ -18,7 +18,7 @@ jobs:
       run: dotnet build 
     - run: pwd
     - run: ls -la
-    - zip -r JapaniseTextClassifier.zip JapaniseTextClassifier/bin/Debug/netcoreapp2.2/*
+    - run: zip -r JapaniseTextClassifier.zip JapaniseTextClassifier/bin/Debug/netcoreapp2.2/*
     #- uses: actions/upload-artifact@master
     #  with:
     #    name: JapaniseTextClassifier
