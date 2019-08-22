@@ -16,11 +16,12 @@ jobs:
         dotnet-version: '2.2.103'
     - name: Build solution
       run: dotnet build 
-    - run: cp JapaniseTextClassifier/bin/Debug/netcoreapp2.2/JapaniseTextClassifier.dll bin/
-    - uses: actions/upload-artifact@master
-      with:
-        name: JapaniseTextClassifier
-        path: bin/JapaniseTextClassifier.dll
+    - run: pwd
+    - run: ls -la
+    #- uses: actions/upload-artifact@master
+    #  with:
+    #    name: JapaniseTextClassifier
+    #    path: bin/JapaniseTextClassifier.dll
     - name: Release solution
       uses: JasonEtco/upload-to-release@master
       with:
