@@ -18,10 +18,13 @@ jobs:
       run: dotnet build --configuration Release
     - run: mv JapaniseTextClassifier/obj/Release/netstandard2.0 $GITHUB_WORKSPACE/_JapaniseTextClassifier
     - run: mv JapaniseTextClassifierConsole/bin/Release/netcoreapp2.2 $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
-    - run: zip -r JapaniseTextClassifier.zip $GITHUB_WORKSPACE/_JapaniseTextClassifier
-    - run: zip -r JapaniseTextClassifierConsole.zip $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
+#    - run: zip -r JapaniseTextClassifier.zip $GITHUB_WORKSPACE/_JapaniseTextClassifier
+#    - run: zip -r JapaniseTextClassifierConsole.zip $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
     - run: pwd
     - run: ls -la
+    - run: dotnet nuget push _JapaniseTextClassifier/JapaniseTextClassifier.*.nupkg -k $NUGET_OLG_API_KEY
+      env:
+        NUGET_OLG_API_KEY: ${{ secrets.NUGET_OLG_API_KEY }}
 #   upload_lib:
 #     runs-on: ubuntu-latest
 #     needs: build
