@@ -16,13 +16,11 @@ jobs:
         dotnet-version: '2.2.103'
     - name: Build solution
       run: dotnet build 
-    - run: pwd
-    - run: ls -la
-    - run: zip -r JapaniseTextClassifier.zip JapaniseTextClassifier/bin/Debug/netcoreapp2.2/*
+    - run: zip -r JapaniseTextClassifier.zip JapaniseTextClassifier/obj/Debug/netstandard2.0/*
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifier
-        path: JapaniseTextClassifier.zip
+        path: JapaniseTextClassifier/obj/Debug/netstandard2.0/
     - name: Github Create Release
       uses: frankjuniorr/github-create-release-action@master
       env:
