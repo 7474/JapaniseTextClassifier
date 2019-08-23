@@ -22,7 +22,7 @@ jobs:
 #    - run: zip -r JapaniseTextClassifierConsole.zip $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
     - run: pwd
     - run: ls -la
-    - run: dotnet nuget push _JapaniseTextClassifier/JapaniseTextClassifier.0.1.0.nupkg -k $NUGET_OLG_API_KEY
+    - run: dotnet nuget push _JapaniseTextClassifier/JapaniseTextClassifier.*.nupkg -k $NUGET_OLG_API_KEY -s https://api.nuget.org/v3/index.json
       env:
         NUGET_OLG_API_KEY: ${{ secrets.NUGET_OLG_API_KEY }}
 #   upload_lib:
