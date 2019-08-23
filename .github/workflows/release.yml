@@ -31,7 +31,7 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifier
-        path: $GITHUB_WORKSPACE/_JapaniseTextClassifier
+        path: ${{ $GITHUB_WORKSPACE }}/_JapaniseTextClassifier
 #   upload_console_app:
 #     runs-on: ubuntu-latest
 #     needs: build
@@ -41,7 +41,7 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifierConsole
-        path: $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
+        path: ${{ $GITHUB_WORKSPACE }}/_JapaniseTextClassifierConsole
 #    - name: Github Create Release
 #      uses: frankjuniorr/github-create-release-action@master
 #      env:
