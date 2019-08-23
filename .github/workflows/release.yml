@@ -16,24 +16,32 @@ jobs:
         dotnet-version: '2.2.103'
     - name: Release Build solution
       run: dotnet build --configuration Release
-    - run: zip -r JapaniseTextClassifier.zip JapaniseTextClassifier/obj/Release/netstandard2.0/*
-    - run: zip -r JapaniseTextClassifierConsole.zip JapaniseTextClassifierConsole/bin/Release/netcoreapp2.2/*
+    - run: mv JapaniseTextClassifier/obj/Release/netstandard2.0 $GITHUB_WORKSPACE/bin_lib
+    - run: mv JapaniseTextClassifierConsole/bin/Release/netcoreapp2.2 $GITHUB_WORKSPACE/bin_console_app
+    - run: zip -r $GITHUB_WORKSPACE/bin_lib
+    - run: zip -r $GITHUB_WORKSPACE/bin_console_app
+    - run: pwd
+    - run: ls -la
   upload_lib:
     runs-on: ubuntu-latest
     needs: build
     steps:
+    - run: pwd
+    - run: ls -la
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifier
-        path: JapaniseTextClassifier/obj/Release/netstandard2.0/
+        path: $GITHUB_WORKSPACE/bin_lib
   upload_console_app:
     runs-on: ubuntu-latest
     needs: build
     steps:
+    - run: pwd
+    - run: ls -la
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifierConsole
-        path: JapaniseTextClassifierConsole/bin/Release/netcoreapp2.2/
+        path: $GITHUB_WORKSPACE/bin_console_app
 #    - name: Github Create Release
 #      uses: frankjuniorr/github-create-release-action@master
 #      env:
