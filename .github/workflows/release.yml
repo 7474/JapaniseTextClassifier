@@ -22,22 +22,22 @@ jobs:
     - run: zip -r JapaniseTextClassifierConsole.zip $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
     - run: pwd
     - run: ls -la
-  upload_lib:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - run: pwd
-    - run: ls -la
+#   upload_lib:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     steps:
+#     - run: pwd
+#     - run: ls -la
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifier
         path: $GITHUB_WORKSPACE/_JapaniseTextClassifier
-  upload_console_app:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - run: pwd
-    - run: ls -la
+#   upload_console_app:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     steps:
+#     - run: pwd
+#     - run: ls -la
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifierConsole
