@@ -24,7 +24,7 @@ namespace JapaniseTextClassifier
             var inputs = args.SelectMany(x => Directory.GetFiles(Path.GetDirectoryName(x), Path.GetFileName(x)))
                 .Select(x => new TextInput(x)).ToList();
             var executor = ServiceProvider.GetRequiredService<JapaniseTextClassifier>();
-            var config = ServiceProvider.GetRequiredService<ExecuteConfig>();
+            var config = ServiceProvider.GetRequiredService<JapaniseTextClassifierConfig>();
             var results = executor.ExecuteBulk(inputs, config);
 
             // XXX 仮出力
@@ -52,7 +52,6 @@ namespace JapaniseTextClassifier
 
             Console.WriteLine("Environment: {0}", environment);
 
-
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
@@ -70,74 +69,17 @@ namespace JapaniseTextClassifier
             }
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            var configuration = Configuration;
 
+            // 実行中に設定変化はしないのでOptionsは構成しない
             var services = new ServiceCollection();
             services.AddLogging(configure =>
             {
                 configure.AddConsole().AddDebug();
             });
-            // 実行中に変化はしないのでOptionsは構成しない
-            var executeConfig = new ExecuteConfig();
-            Configuration.Bind("ExecuteConfig", executeConfig);
-            services.AddSingleton(executeConfig);
-            services.AddSingleton<IAzureTranslatorConfig>(executeConfig);
-            services.AddSingleton<IAzureClassifierConfig>(executeConfig);
-            services.AddSingleton<IGcpTranslatorConfig>(executeConfig);
-            services.AddSingleton<IGcpClassifierConfig>(executeConfig);
-
-            services.AddSingleton<HtmlNormalizer>();
-            services.AddSingleton<AzureTranslator>();
-            services.AddSingleton<AzureClassifier>();
-            services.AddSingleton<GcpTranslator>();
-            services.AddSingleton<GcpClassifier>();
-
-            services.AddSingleton<ICollection<ITranslator>>(f =>
-            {
-                return new List<ITranslator>()
-                {
-                    f.GetService<AzureTranslator>(),
-                    f.GetService<GcpTranslator>(),
-                };
-            });
-            services.AddSingleton<ICollection<IClassifier>>(f =>
-            {
-                return new List<IClassifier>()
-                {
-                    f.GetService<AzureClassifier>(),
-                    f.GetService<GcpClassifier>(),
-                };
-            });
-            services.AddSingleton<JapaniseTextClassifier>();
+            services.AddJapaniseTextClassifier(configuration);
 
             ServiceProvider = services.BuildServiceProvider();
         }
-    }
-
-    // XXX ふぁいるのかずをふやすのがめんどうくさい
-    class ExecuteConfig : IJapaniseTextClassifierExecuteConfig,
-        IAzureTranslatorConfig, IAzureClassifierConfig,
-        IGcpTranslatorConfig, IGcpClassifierConfig
-    {
-        public string ResultDataDir { get; set; }
-
-        public string NormalizerName { get; set; }
-        public string TranslatorName { get; set; }
-        public string ClassifierName { get; set; }
-
-        //
-        [JsonIgnore]
-        public string AzureTranslatorSubscriptionKey { get; set; }
-        [JsonIgnore]
-        public string AzureClassifierSubscriptionKey { get; set; }
-        //
-        [JsonIgnore]
-        public string GcpTranslatorApiKey { get; set; }
-        //
-
-        string IAzureTranslatorConfig.SubscriptionKey => AzureTranslatorSubscriptionKey;
-
-        string IAzureClassifierConfig.SubscriptionKey => AzureClassifierSubscriptionKey;
-
-        string IGcpTranslatorConfig.ApiKey => GcpTranslatorApiKey;
     }
 }
