@@ -8,6 +8,11 @@ using System.Linq;
 
 namespace JapaniseTextClassifier
 {
+    /// <summary>
+    /// 特に設定なし。
+    /// 認証情報は環境変数 `GOOGLE_APPLICATION_CREDENTIALS` を
+    /// サービスアカウントキーが含まれる JSON ファイルのファイルパスに設定します。
+    /// </summary>
     interface IGcpClassifierConfig
     {
         // empty
