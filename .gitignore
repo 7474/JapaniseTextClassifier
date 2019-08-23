@@ -340,5 +340,5 @@ ASALocalRun/
 healthchecksdb
 
 # Local settings
-/JapaniseTextClassifier/appsettings.Development.json
-/JapaniseTextClassifier/google-application-credentials.json
+/JapaniseTextClassifierConsole/google-application-credentials.json
+/JapaniseTextClassifierConsole/appsettings.Development.json

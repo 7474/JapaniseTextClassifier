@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JapaniseTextClassifier
 {
-    class TextInput
+    public class TextInput
     {
         public string Key { get; set; }
         public string RawText { get; set; }

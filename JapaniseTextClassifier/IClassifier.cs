@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JapaniseTextClassifier
 {
-    interface IClassifier
+    public interface IClassifier
     {
         string Name { get; }
         ICollection<Category> Classify(string text);

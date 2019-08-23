@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace JapaniseTextClassifier
 {
-    class TextResult
+    public class TextResult
     {
         // XXX 気が向いたら列挙値にするよ
         public bool HasError { get; set; }
@@ -34,7 +34,7 @@ namespace JapaniseTextClassifier
     //    Offensive,
     //}
 
-    class Category
+    public class Category
     {
         public string Name { get; set; }
         public double Score { get; set; }

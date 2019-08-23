@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using JapaniseTextClassifier;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
 
-namespace JapaniseTextClassifier
+namespace JapaniseTextClassifierConsole
 {
     class Program
     {
@@ -23,8 +21,8 @@ namespace JapaniseTextClassifier
 
             var inputs = args.SelectMany(x => Directory.GetFiles(Path.GetDirectoryName(x), Path.GetFileName(x)))
                 .Select(x => new TextInput(x)).ToList();
-            var executor = ServiceProvider.GetRequiredService<JapaniseTextClassifier>();
-            var config = ServiceProvider.GetRequiredService<JapaniseTextClassifierConfig>();
+            var executor = ServiceProvider.GetRequiredService<IJapaniseTextClassifier>();
+            var config = ServiceProvider.GetRequiredService<IJapaniseTextClassifierExecuteConfig>();
             var results = executor.ExecuteBulk(inputs, config);
 
             // XXX 仮出力

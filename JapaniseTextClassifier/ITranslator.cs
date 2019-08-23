@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JapaniseTextClassifier
 {
-    interface ITranslator
+    public interface ITranslator
     {
         string Name { get; }
         string Translate(string text);

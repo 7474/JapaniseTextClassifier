@@ -13,6 +13,7 @@ namespace JapaniseTextClassifier
             var config = new JapaniseTextClassifierConfig();
             configuration.Bind("JapaniseTextClassifierConfig", config);
             services.AddSingleton(config);
+            services.AddSingleton<IJapaniseTextClassifierExecuteConfig>(config);
             services.AddSingleton<IAzureTranslatorConfig>(config);
             services.AddSingleton<IAzureClassifierConfig>(config);
             services.AddSingleton<IGcpTranslatorConfig>(config);
@@ -40,7 +41,7 @@ namespace JapaniseTextClassifier
                     f.GetService<GcpClassifier>(),
                 };
             });
-            services.AddSingleton<JapaniseTextClassifier>();
+            services.AddSingleton<IJapaniseTextClassifier, JapaniseTextClassifier>();
         }
     }
 }

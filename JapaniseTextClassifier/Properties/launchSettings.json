@@ -1,12 +1,7 @@
 {
   "profiles": {
     "JapaniseTextClassifier": {
-      "commandName": "Project",
-      "commandLineArgs": "..\\..\\..\\Sample\\Input\\*.txt ..\\..\\..\\Sample\\Input\\*.html",
-      "environmentVariables": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "..\\..\\..\\google-application-credentials.json",
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      "commandName": "Project"
     }
   }
 }

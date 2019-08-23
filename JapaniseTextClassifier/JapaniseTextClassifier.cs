@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JapaniseTextClassifier
 {
-    interface IJapaniseTextClassifierExecuteConfig
+    public interface IJapaniseTextClassifierExecuteConfig
     {
         string ResultDataDir { get; }
 
@@ -15,13 +15,13 @@ namespace JapaniseTextClassifier
         string ClassifierName { get; }
     }
 
-    interface IJapaniseTextClassifier
+    public interface IJapaniseTextClassifier
     {
         IEnumerable<TextResult> ExecuteBulk(IEnumerable<TextInput> inputs, IJapaniseTextClassifierExecuteConfig config);
         TextResult Execute(TextInput input, IJapaniseTextClassifierExecuteConfig config);
     }
 
-    class JapaniseTextClassifier : IJapaniseTextClassifier
+    public class JapaniseTextClassifier : IJapaniseTextClassifier
     {
         public JapaniseTextClassifier(
             ICollection<ITranslator> translators,
