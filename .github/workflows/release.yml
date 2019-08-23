@@ -10,48 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Set up .NET Core
-      uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '2.2.103'
-    - name: Release Build solution
-      run: dotnet build --configuration Release
-    - run: mv JapaniseTextClassifier/bin/Release/netstandard2.0 $GITHUB_WORKSPACE/_JapaniseTextClassifier
-    - run: mv JapaniseTextClassifierConsole/bin/Release/netcoreapp2.2 $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
-#    - run: zip -r JapaniseTextClassifier.zip $GITHUB_WORKSPACE/_JapaniseTextClassifier
-#    - run: zip -r JapaniseTextClassifierConsole.zip $GITHUB_WORKSPACE/_JapaniseTextClassifierConsole
-    - run: pwd
-    - run: ls -la
+    - run: dotnet build --configuration Release
     - run: dotnet nuget push JapaniseTextClassifier/bin/Release/JapaniseTextClassifier.*.nupkg -k $NUGET_OLG_API_KEY -s https://api.nuget.org/v3/index.json
       env:
         NUGET_OLG_API_KEY: ${{ secrets.NUGET_OLG_API_KEY }}
-#   upload_lib:
-#     runs-on: ubuntu-latest
-#     needs: build
-#     steps:
-#     - run: pwd
-#     - run: ls -la
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifier
-        path: _JapaniseTextClassifier
-#   upload_console_app:
-#     runs-on: ubuntu-latest
-#     needs: build
-#     steps:
-#     - run: pwd
-#     - run: ls -la
+        path: JapaniseTextClassifier/bin/Release/netstandard2.0
     - uses: actions/upload-artifact@master
       with:
         name: JapaniseTextClassifierConsole
-        path: _JapaniseTextClassifierConsole
-#    - name: Github Create Release
-#      uses: frankjuniorr/github-create-release-action@master
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#    - name: Release solution
-#      uses: JasonEtco/upload-to-release@master
-#      with:
-#        args: JapaniseTextClassifier.zip application/zip
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        path: JapaniseTextClassifierConsole/bin/Release/netcoreapp2.2
