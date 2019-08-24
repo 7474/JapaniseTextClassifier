@@ -7,12 +7,12 @@ using System.Text;
 
 namespace JapaniseTextClassifier
 {
-    interface IGcpTranslatorConfig
+    public interface IGcpTranslatorConfig
     {
         string ApiKey { get; }
     }
 
-    class GcpTranslator : ITranslator
+    public class GcpTranslator : ITranslator
     {
         // https://cloud.google.com/translate/docs/quickstart-client-libraries
         private readonly ILogger _logger;

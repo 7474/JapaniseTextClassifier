@@ -13,12 +13,12 @@ namespace JapaniseTextClassifier
     /// 認証情報は環境変数 `GOOGLE_APPLICATION_CREDENTIALS` を
     /// サービスアカウントキーが含まれる JSON ファイルのファイルパスに設定します。
     /// </summary>
-    interface IGcpClassifierConfig
+    public interface IGcpClassifierConfig
     {
         // empty
     }
 
-    class GcpClassifier : IClassifier
+    public class GcpClassifier : IClassifier
     {
         // https://cloud.google.com/natural-language/docs/quickstart-client-libraries?hl=ja
         private readonly ILogger _logger;
@@ -32,7 +32,6 @@ namespace JapaniseTextClassifier
 
         public ICollection<Category> Classify(string text)
         {
-
             // 入力はAzure合わせにしておく
             // https://Gcp.microsoft.com/ja-jp/pricing/details/cognitive-services/content-moderator/
             // XXX テキストの最大文字長は 1024 です。

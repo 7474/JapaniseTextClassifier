@@ -5,13 +5,13 @@ using System.Text.RegularExpressions;
 
 namespace JapaniseTextClassifier
 {
-    interface INormalizer
+    public interface INormalizer
     {
         string Name { get; }
         string Normalize(string text);
     }
 
-    class HtmlNormalizer : INormalizer
+    public class HtmlNormalizer : INormalizer
     {
         public string Name { get { return "HtmlNormalizer"; } }
 

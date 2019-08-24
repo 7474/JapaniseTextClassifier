@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.CognitiveServices.ContentModerator;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -6,21 +7,23 @@ using System.Text;
 
 namespace JapaniseTextClassifier
 {
-    interface IAzureClassifierConfig
+    public interface IAzureClassifierConfig
     {
         string SubscriptionKey { get; }
     }
 
-    class AzureClassifier : IClassifier
+    public class AzureClassifier : IClassifier
     {
         // https://docs.microsoft.com/ja-jp/azure/cognitive-services/content-moderator/text-moderation-quickstart-dotnet
         private static readonly string AzureRegion = "japaneast";
         private static readonly string AzureBaseURL = $"https://{AzureRegion}.api.cognitive.microsoft.com";
 
+        private readonly ILogger _logger;
         private IAzureClassifierConfig _config;
         private ContentModeratorClient client;
-        public AzureClassifier(IAzureClassifierConfig config)
+        public AzureClassifier(IAzureClassifierConfig config, ILogger<AzureClassifier> logger)
         {
+            _logger = logger;
             _config = config;
 
             client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(_config.SubscriptionKey));
@@ -40,8 +43,7 @@ namespace JapaniseTextClassifier
                 classify: true
             );
 
-            // XXX ロガー
-            System.Console.WriteLine(JsonConvert.SerializeObject(screenResult));
+            _logger.LogDebug(JsonConvert.SerializeObject(screenResult));
 
             var results = new List<Category>();
             if (screenResult.Classification.Category1.Score.HasValue)

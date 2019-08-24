@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,10 +23,14 @@ namespace JapaniseTextClassifier
 
     public class JapaniseTextClassifier : IJapaniseTextClassifier
     {
+        private readonly ILogger _logger;
+
         public JapaniseTextClassifier(
             ICollection<ITranslator> translators,
-            ICollection<IClassifier> classifiers)
+            ICollection<IClassifier> classifiers,
+            ILogger<JapaniseTextClassifier> logger)
         {
+            _logger = logger;
             translatorDic = translators.ToDictionary(x => x.Name);
             classifierDic = classifiers.ToDictionary(x => x.Name);
         }
@@ -41,8 +47,7 @@ namespace JapaniseTextClassifier
                 catch (Exception ex)
                 {
                     // 死ぬときは独りさ
-                    // XXX ロガー
-                    System.Console.WriteLine(ex);
+                    _logger.LogError(ex, $"Ecexute fail. Input = {JsonConvert.SerializeObject(x)}");
                     return new TextResult()
                     {
                         Config = config,
