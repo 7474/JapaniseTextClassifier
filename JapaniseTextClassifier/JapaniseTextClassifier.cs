@@ -8,8 +8,6 @@ namespace JapaniseTextClassifier
 {
     public interface IJapaniseTextClassifierExecuteConfig
     {
-        string ResultDataDir { get; }
-
         string NormalizerName { get; }
         string TranslatorName { get; }
         string ClassifierName { get; }

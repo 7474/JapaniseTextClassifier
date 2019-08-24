@@ -6,8 +6,6 @@ namespace JapaniseTextClassifier
         IAzureTranslatorConfig, IAzureClassifierConfig,
         IGcpTranslatorConfig, IGcpClassifierConfig
     {
-        public string ResultDataDir { get; set; }
-
         public string NormalizerName { get; set; }
         public string TranslatorName { get; set; }
         public string ClassifierName { get; set; }

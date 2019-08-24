@@ -10,6 +10,12 @@ namespace JapaniseTextClassifier
         public string Key { get; set; }
         public string RawText { get; set; }
 
+        public TextInput(string key, string rawText)
+        {
+            this.Key = key;
+            this.RawText = rawText;
+        }
+
         public TextInput(string filePath)
             : this(new FileInfo(filePath))
         {

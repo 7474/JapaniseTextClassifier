@@ -26,10 +26,11 @@ namespace JapaniseTextClassifierConsole
             var results = executor.ExecuteBulk(inputs, config);
 
             // XXX 仮出力
+            var resultDataDir = Environment.GetEnvironmentVariable("ResultDataDir") ?? "/tmp/Results";
             results.ToList().ForEach(x =>
             {
                 var json = JsonConvert.SerializeObject(x, Formatting.Indented);
-                var path = Path.Combine(x.Config.ResultDataDir, x.Input.Key + ".json");
+                var path = Path.Combine(resultDataDir, x.Input.Key + ".json");
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 File.WriteAllText(path, json, Encoding.UTF8);
 
