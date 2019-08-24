@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "JapaniseTextClassifierFunction": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "google-application-credentials.json",
+        "ENVIRONMENT_NAME": "Development"
+      }
+    }
+  }
+}
