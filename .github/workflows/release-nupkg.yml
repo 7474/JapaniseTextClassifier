@@ -3,7 +3,7 @@ name: Release JapaniseTextClassifier
 on:
   push:
     branches:
-    - master
+    - release/nupkg
 
 jobs:
   build:
