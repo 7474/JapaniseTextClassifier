@@ -25,12 +25,12 @@ namespace JapaniseTextClassifierFunction
 
         [FunctionName("JapaniseTextClassifierFunction")]
         public IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]Request body,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/classify")]Request body,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            // XXX 追跡用のIDあった気がするのでそちらを取りたい
+            // XXX 追跡用のIDあった気がするのでそちらを取りたい -> 見当たらない
             var id = Guid.NewGuid();
             var result = _service.Execute(new TextInput(id.ToString(), body.Text), new Config()
             {
