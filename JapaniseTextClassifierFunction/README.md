@@ -1,13 +1,12 @@
 ﻿# JapaniseTextClassifierFunction
 
-JapaniseTextClassifier を [Azure Functions](https://azure.microsoft.com/ja-jp/services/functions/) でホスティングする。
-
+For hosting [JapaniseTextClassifier](../) on [Azure Functions](https://azure.microsoft.com/ja-jp/services/functions/).
 
 ## Snipet
 
 ```
 $ curl -X POST -v \
-	http://localhost:7071/api/JapaniseTextClassifierFunction \
+	http://localhost:7071/api/v1/classify \
 	-d '{"ClassifierName": "GcpClassifier", "TranslatorName": "GcpTranslator", "Text": "ほげ　ばかー　えっちー"}'
 ```
 
