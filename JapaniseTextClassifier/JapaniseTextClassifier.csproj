@@ -9,6 +9,11 @@
     <PackageProjectUrl>https://github.com/7474/JapaniseTextClassifier</PackageProjectUrl>
     <RepositoryUrl>https://github.com/7474/JapaniseTextClassifier</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
+    <Description>JapaniseTextClassifier classifies whether Japanese text contains sexual or unpleasant expressions.
+
+As of August 2019, each cloud vendor's (Azure, GCP, etc) text classification SaaS is only available in English.
+Therefore, JapaniseTextClassifier translates Japanese into English before classification.
+You can specify which cloud vendor's SaaS is used for translation and classification.</Description>
   </PropertyGroup>
 
   <ItemGroup>
