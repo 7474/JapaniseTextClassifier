@@ -3,10 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.2</Version>
+    <Version>0.1.3</Version>
     <Authors>koudenpa</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/7474/JapaniseTextClassifier</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/7474/JapaniseTextClassifier/tree/master/JapaniseTextClassifier</PackageProjectUrl>
     <RepositoryUrl>https://github.com/7474/JapaniseTextClassifier</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Description>JapaniseTextClassifier classifies whether Japanese text contains sexual or unpleasant expressions.
