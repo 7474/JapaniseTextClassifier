@@ -1,16 +1,15 @@
-
-using System.IO;
+using Aliencube.AzureFunctions.Extensions.OpenApi.Attributes;
+using JapaniseTextClassifier;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Host;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
-using JapaniseTextClassifier;
-using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Net;
 
 namespace JapaniseTextClassifierFunction
 {
@@ -23,8 +22,11 @@ namespace JapaniseTextClassifierFunction
             _service = classifier;
         }
 
-        [FunctionName("JapaniseTextClassifierFunction")]
-        public IActionResult Run(
+        [FunctionName("ClassifyJapaniseText")]
+        [OpenApiOperation("ClassifyJapaniseText", "classification")]
+        [OpenApiRequestBody("application/json", typeof(Request))]
+        [OpenApiResponseBody(HttpStatusCode.OK, "application/json", typeof(Response))]
+        public IActionResult Classify(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/classify")]Request body,
             ILogger log)
         {
@@ -41,7 +43,7 @@ namespace JapaniseTextClassifierFunction
 
             var response = new Response()
             {
-                Categories = result.Categories,
+                Categories = result.Categories.ToList(),
                 TranslatedText = result.TranslatedText,
                 HasError = result.HasError,
                 Request = body,
@@ -69,7 +71,7 @@ namespace JapaniseTextClassifierFunction
             public Request Request { get; set; }
             public bool HasError { get; set; }
             public string TranslatedText { get; set; }
-            public ICollection<Category> Categories { get; set; }
+            public IList<Category> Categories { get; set; }
         }
 
         public class Config : IJapaniseTextClassifierExecuteConfig
