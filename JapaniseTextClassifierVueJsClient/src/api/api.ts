@@ -21,6 +21,62 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface ListResponse
+ */
+export interface ListResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof ListResponse
+     */
+    nextOffest?: string;
+    /**
+     * 
+     * @type {Array<ListResponseItems>}
+     * @memberof ListResponse
+     */
+    items?: Array<ListResponseItems>;
+}
+/**
+ * 
+ * @export
+ * @interface ListResponseItems
+ */
+export interface ListResponseItems {
+    /**
+     * 
+     * @type {string}
+     * @memberof ListResponseItems
+     */
+    id?: string;
+    /**
+     * 
+     * @type {ResponseRequest}
+     * @memberof ListResponseItems
+     */
+    request?: ResponseRequest;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ListResponseItems
+     */
+    hasError?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListResponseItems
+     */
+    translatedText?: string;
+    /**
+     * 
+     * @type {Array<ResponseCategories>}
+     * @memberof ListResponseItems
+     */
+    categories?: Array<ResponseCategories>;
+}
+/**
+ * 
+ * @export
  * @interface Request
  */
 export interface Request {
@@ -49,6 +105,12 @@ export interface Request {
  * @interface Response
  */
 export interface Response {
+    /**
+     * 
+     * @type {string}
+     * @memberof Response
+     */
+    id?: string;
     /**
      * 
      * @type {ResponseRequest}
@@ -158,6 +220,73 @@ export const ClassificationApiAxiosParamCreator = function (configuration?: Conf
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClassifyResult(id: string, options: any = {}): RequestArgs {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getClassifyResult.');
+            }
+            const localVarPath = `/v1/classify/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClassifyResultList(offset?: string, options: any = {}): RequestArgs {
+            const localVarPath = `/v1/classify`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -175,6 +304,32 @@ export const ClassificationApiFp = function(configuration?: Configuration) {
          */
         classifyJapaniseText(body?: Request, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
             const localVarAxiosArgs = ClassificationApiAxiosParamCreator(configuration).classifyJapaniseText(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClassifyResult(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = ClassificationApiAxiosParamCreator(configuration).getClassifyResult(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClassifyResultList(offset?: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListResponse> {
+            const localVarAxiosArgs = ClassificationApiAxiosParamCreator(configuration).getClassifyResultList(offset, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -198,6 +353,24 @@ export const ClassificationApiFactory = function (configuration?: Configuration,
         classifyJapaniseText(body?: Request, options?: any) {
             return ClassificationApiFp(configuration).classifyJapaniseText(body, options)(axios, basePath);
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClassifyResult(id: string, options?: any) {
+            return ClassificationApiFp(configuration).getClassifyResult(id, options)(axios, basePath);
+        },
+        /**
+         * 
+         * @param {string} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getClassifyResultList(offset?: string, options?: any) {
+            return ClassificationApiFp(configuration).getClassifyResultList(offset, options)(axios, basePath);
+        },
     };
 };
 
@@ -217,6 +390,28 @@ export class ClassificationApi extends BaseAPI {
      */
     public classifyJapaniseText(body?: Request, options?: any) {
         return ClassificationApiFp(this.configuration).classifyJapaniseText(body, options)(this.axios, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClassificationApi
+     */
+    public getClassifyResult(id: string, options?: any) {
+        return ClassificationApiFp(this.configuration).getClassifyResult(id, options)(this.axios, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {string} [offset] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClassificationApi
+     */
+    public getClassifyResultList(offset?: string, options?: any) {
+        return ClassificationApiFp(this.configuration).getClassifyResultList(offset, options)(this.axios, this.basePath);
     }
 
 }

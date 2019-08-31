@@ -6,8 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --dest ../docs",
     "api-gen": "run-s api-gen-clean api-gen-generate api-gen-move",
-    "api-gen-generate": "npx openapi-generator generate -i ../JapaniseTextClassifierFunction/swagger.json -g typescript-axios -o ./tmp",
-    "api-gen-clean": "rm -rf ./tmp ./src/api/*",
+    "api-gen-generate": "npx openapi-generator generate -i http://localhost:7071/api/openapi/v2.json -g typescript-axios -o ./tmp",
+    "api-gen-clean": "rm -rf ./src/api/*",
     "api-gen-move": "cp -p ./tmp/*.ts ./src/api/"
   },
   "description": "JapaniseTextClassifierVueJsClient",
