@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Aliencube.AzureFunctions.Extensions.OpenApi;
+using Aliencube.AzureFunctions.Extensions.OpenApi.Abstractions;
+using Aliencube.AzureFunctions.Extensions.OpenApi.Configurations;
 using JapaniseTextClassifier;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +31,7 @@ namespace JapaniseTextClassifierFunction
 
                 // use IConfigurationBuilder like you typically would
                 var configuration = configBuilder
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile("appsettings.json")
                     .AddJsonFile($"appsettings.{envName}.json", true, true)
                     .TryAddAzureKeyVault(Environment.GetEnvironmentVariable("VAULT_NAME"))
                     .AddEnvironmentVariables()
@@ -49,6 +52,19 @@ namespace JapaniseTextClassifierFunction
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //
+            services.AddSingleton<AppSettings>();
+            services.AddSingleton<RouteConstraintFilter, RouteConstraintFilter>();
+
+            services.AddTransient<IDocumentHelper, DocumentHelper>();
+            services.AddTransient<IDocument, Document>();
+            services.AddTransient<ISwaggerUI, SwaggerUI>();
+
+            //services.AddTransient<ISampleHttpFunction, SampleHttpFunction>();
+            //services.AddTransient<ISampleTimerFunction, SampleTimerFunction>();
+            //services.AddTransient<IRenderOpeApiDocumentFunction, RenderOpeApiDocumentFunction>();
+            //services.AddTransient<IRenderSwaggerUIFunction, RenderSwaggerUIFunction>();
+
             // XXX  Cloud Natural Language API のSDKとAzure Functionsのランタイムとで依存関係の競合が発生しているので全構成はできない状態
             // Ref. https://www.oipapio.com/question-4684771
             //services.AddJapaniseTextClassifier(Configuration);
