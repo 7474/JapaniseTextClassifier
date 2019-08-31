@@ -23,32 +23,19 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
-    import { ClassificationApi, Configuration, Response } from '../api';
 
     @Component
     export default class Home extends Vue {
         @Prop()
         private jaText!: string;
-        private results: Array<Response>;
-        
-        constructor() {
-            super();
-            this.results = [];
+
+        private get results(): string {
+            return this.$store.state.classifyResults;
         }
-        // XXX APIクライアントの試し呼び
-        public async onClick() {
-            const client = new ClassificationApi(new Configuration({
-                // XXX 何処から食わせるのがいいの？
-                basePath: "http://localhost:7071/api",
-            }));
-            const result = await client.classifyJapaniseText(
-                {
-                    text: this.jaText,
-                    translatorName: "GcpTranslator",
-                    classifierName: "AzureClassifier",
-                });
-            console.log(result);
-            this.results.push(result.data);
+
+        public onClick() {
+            console.log('onClick');
+            this.$store.dispatch('classifyJapaniseText', this.jaText);
         }
     }
 </script>
