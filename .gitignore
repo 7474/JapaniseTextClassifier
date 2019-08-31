@@ -344,3 +344,5 @@ healthchecksdb
 /JapaniseTextClassifierConsole/appsettings.Development.json
 /JapaniseTextClassifierFunction/google-application-credentials.json
 /JapaniseTextClassifierFunction/appsettings.Development.json
+/JapaniseTextClassifierVueJsClient/dist
+/JapaniseTextClassifierVueJsClient/tmp

@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "api-gen": "run-s api-gen-clean api-gen-generate api-gen-move",
+    "api-gen-generate": "npx openapi-generator generate -i ../JapaniseTextClassifierFunction/swagger.json -g typescript-fetch -o ./tmp",
+    "api-gen-clean": "rm -rf ./tmp ./src/api",
+    "api-gen-move": "mv ./tmp/src ./src/api"
   },
   "description": "JapaniseTextClassifierVueJsClient",
   "author": {
@@ -16,9 +20,11 @@
     "vue-property-decorator": "7.0.0"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "0.0.17-4.1.1",
     "@vue/cli-plugin-babel": "3.0.4",
     "@vue/cli-plugin-typescript": "3.0.4",
     "@vue/cli-service": "3.0.4",
+    "npm-run-all": "^4.1.5",
     "typescript": "3.1.1",
     "vue-template-compiler": "2.5.17"
   },

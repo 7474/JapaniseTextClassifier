@@ -1,0 +1,118 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "JapaniseTextClassifierFunction",
+    "description": "For hosting JapaniseTextClassifier on Azure Functions.",
+    "termsOfService": "https://github.com/7474/JapaniseTextClassifier/",
+    "contact": {
+      "name": "koudenpa",
+      "url": "https://github.com/7474/JapaniseTextClassifier/issues"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/7474/JapaniseTextClassifier/blob/master/LICENSE"
+    },
+    "version": "0.1.0"
+  },
+  "host": "localhost:7071",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/v1/classify": {
+      "post": {
+        "tags": [
+          "classification"
+        ],
+        "operationId": "ClassifyJapaniseText",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Response",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Request": {
+      "type": "object",
+      "properties": {
+        "TranslatorName": {
+          "type": "string"
+        },
+        "ClassifierName": {
+          "type": "string"
+        },
+        "Text": {
+          "type": "string"
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "Request": {
+          "type": "object",
+          "properties": {
+            "TranslatorName": {
+              "type": "string"
+            },
+            "ClassifierName": {
+              "type": "string"
+            },
+            "Text": {
+              "type": "string"
+            }
+          }
+        },
+        "HasError": {
+          "type": "boolean"
+        },
+        "TranslatedText": {
+          "type": "string"
+        },
+        "Categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Name": {
+                "type": "string"
+              },
+              "Score": {
+                "format": "double",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "authKey": {
+      "type": "apiKey",
+      "name": "x-functions-key",
+      "in": "header"
+    }
+  }
+}
