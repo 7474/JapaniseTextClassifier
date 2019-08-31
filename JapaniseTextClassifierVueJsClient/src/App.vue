@@ -27,6 +27,7 @@
                 const client = new ClassificationApi(new Configuration({
                     // XXX 何処から食わせるのがいいの？
                     basePath: "http://localhost:7071/api",
+                    //basePath: "https://japanisetextclassifierfunction.azurewebsites.net/api",
                 }));
                 const result = await client.classifyJapaniseText(
                     {

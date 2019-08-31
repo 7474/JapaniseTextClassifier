@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --dest ./docs",
     "api-gen": "run-s api-gen-clean api-gen-generate api-gen-move",
     "api-gen-generate": "npx openapi-generator generate -i ../JapaniseTextClassifierFunction/swagger.json -g typescript-axios -o ./tmp",
     "api-gen-clean": "rm -rf ./tmp ./src/api/*",
