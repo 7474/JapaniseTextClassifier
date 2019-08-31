@@ -1,0 +1,43 @@
+{
+  "name": "japanise-text-classifier-vue-js-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --dest ./docs",
+    "api-gen": "run-s api-gen-clean api-gen-generate api-gen-move",
+    "api-gen-generate": "npx openapi-generator generate -i ../JapaniseTextClassifierFunction/swagger.json -g typescript-axios -o ./tmp",
+    "api-gen-clean": "rm -rf ./tmp ./src/api/*",
+    "api-gen-move": "cp -p ./tmp/*.ts ./src/api/"
+  },
+  "description": "JapaniseTextClassifierVueJsClient",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "vue": "2.5.17",
+    "vue-class-component": "6.0.0",
+    "vue-property-decorator": "7.0.0",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "0.0.17-4.1.1",
+    "@vue/cli-plugin-babel": "3.0.4",
+    "@vue/cli-plugin-typescript": "3.0.4",
+    "@vue/cli-service": "3.0.4",
+    "npm-run-all": "^4.1.5",
+    "typescript": "3.1.1",
+    "vue-template-compiler": "2.5.17"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
