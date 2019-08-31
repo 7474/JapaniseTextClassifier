@@ -11,5 +11,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '2.2.103'
-    - name: Build solution
-      run: dotnet build 
+    - name: Build JapaniseTextClassifier
+      run: dotnet build ./JapaniseTextClassifier/JapaniseTextClassifier.csproj
+    - name: Build JapaniseTextClassifierConsole
+      run: dotnet build ./JapaniseTextClassifierConsole/JapaniseTextClassifierConsole.csproj
+    - name: Build JapaniseTextClassifierFunction
+      run: dotnet build ./JapaniseTextClassifierFunction/JapaniseTextClassifierFunction.csproj
