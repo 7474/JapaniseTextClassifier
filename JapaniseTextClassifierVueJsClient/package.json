@@ -6,15 +6,16 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "api-gen": "run-s api-gen-clean api-gen-generate api-gen-move",
-    "api-gen-generate": "npx openapi-generator generate -i ../JapaniseTextClassifierFunction/swagger.json -g typescript-fetch -o ./tmp",
-    "api-gen-clean": "rm -rf ./tmp ./src/api",
-    "api-gen-move": "mv ./tmp/src ./src/api"
+    "api-gen-generate": "npx openapi-generator generate -i ../JapaniseTextClassifierFunction/swagger.json -g typescript-axios -o ./tmp",
+    "api-gen-clean": "rm -rf ./tmp ./src/api/*",
+    "api-gen-move": "cp -p ./tmp/*.ts ./src/api/"
   },
   "description": "JapaniseTextClassifierVueJsClient",
   "author": {
     "name": ""
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "vue": "2.5.17",
     "vue-class-component": "6.0.0",
     "vue-property-decorator": "7.0.0"

@@ -19,15 +19,14 @@
                 // XXX 何処から食わせるのがいいの？
                 basePath: "http://localhost:7071/api",
             }));
-            const result = await client.classifyJapaniseText({
-                body: {
+            const result = await client.classifyJapaniseText(
+                {
                     text: "これを分類できますか？",
                     translatorName: "GcpTranslator",
                     classifierName: "AzureClassifier",
-                },
-            });
+                });
             console.log(result);
-            this.msg = "" + result.translatedText;
+            this.msg = "" + result.data.translatedText;
         }
     }
 </script>
