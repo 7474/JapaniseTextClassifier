@@ -1,18 +1,40 @@
 <template>
-    <div class="home" v-on:click="onClick">
-        <h1>{{ msg }}</h1>
-        <p>Welcome to your new single-page application, built with <a href="https://vuejs.org" target="_blank">Vue.js</a> and <a href="http://www.typescriptlang.org/" target="_blank">TypeScript</a>.</p>
+    <div>
+        <h1>JapaniseTextClassifierVueJsClient</h1>
+        <form>
+            <textarea v-model="jaText" placeholder="分類したい日本語"></textarea>
+            <button type="button" v-on:click="onClick">classify</button>
+        </form>
+        <hr />
+        <ul>
+            <li v-for="result in results">
+                <p>{{ result.request.text }}</p>
+                <p>↓</p>
+                <p>{{ result.translatedText }}</p>
+                <ul>
+                    <li v-for="category in result.categories">
+                        {{ category.name }}: {{ category.score }}
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
-    import { ClassificationApi, Configuration } from '../api';
+    import { ClassificationApi, Configuration, Response } from '../api';
 
     @Component
     export default class Home extends Vue {
-        @Prop() private msg!: string;
-
+        @Prop()
+        private jaText!: string;
+        private results: Array<Response>;
+        
+        constructor() {
+            super();
+            this.results = [];
+        }
         // XXX APIクライアントの試し呼び
         public async onClick() {
             const client = new ClassificationApi(new Configuration({
@@ -21,12 +43,12 @@
             }));
             const result = await client.classifyJapaniseText(
                 {
-                    text: "これを分類できますか？",
+                    text: this.jaText,
                     translatorName: "GcpTranslator",
                     classifierName: "AzureClassifier",
                 });
             console.log(result);
-            this.msg = "" + result.data.translatedText;
+            this.results.push(result.data);
         }
     }
 </script>
