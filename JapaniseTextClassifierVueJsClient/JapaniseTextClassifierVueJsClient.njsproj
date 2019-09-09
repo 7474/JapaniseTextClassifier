@@ -36,10 +36,17 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include=".gitignore" />
+    <Content Include="libman.json" />
     <Content Include="public\favicon.ico" />
     <Content Include="public\index.html" />
     <Content Include="src\App.vue" />
     <Content Include="src\components\Home.vue" />
+    <Content Include="src\components\Form.vue" />
+    <Content Include="src\components\ResultDetail.vue" />
+    <Content Include="src\components\ResultList.vue" />
+    <Content Include="src\components\ResultSummary.vue" />
+    <Content Include="src\store\index.ts" />
+    <Content Include="src\store\modules\japanise-text-classifier.ts" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -50,6 +57,8 @@
     <Folder Include="src\" />
     <Folder Include="src\assets\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\store\" />
+    <Folder Include="src\store\modules\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\main.ts" />
