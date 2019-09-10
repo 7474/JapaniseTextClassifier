@@ -40,6 +40,9 @@
     <Content Include="public\favicon.ico" />
     <Content Include="public\index.html" />
     <Content Include="src\App.vue" />
+    <Content Include="src\components\JtcHeader.vue">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\components\Home.vue" />
     <Content Include="src\components\Form.vue" />
     <Content Include="src\components\ResultDetail.vue" />
@@ -67,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="babel.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\store\modules\id.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

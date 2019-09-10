@@ -1,6 +1,4 @@
-import Vue from "vue";
-import Vuex, { Module as Mod } from "vuex";
-import { RegisterOptions } from "vuex-class-modules";
+import { Module as Mod } from "vuex";
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import { Response, ClassificationApi, Configuration } from "../../api";
 
@@ -16,7 +14,12 @@ class JapaniseTextClassifier extends VuexModule {
         this.classificationApi = new ClassificationApi(
             new Configuration({
                 // XXX 何処から食わせるのがいいの？
-                basePath: "http://localhost:7071/api"
+                //basePath: "http://localhost:7071/api"
+                basePath: "https://japanisetextclassifierfunction.azurewebsites.net/api",
+                baseOptions: {
+                    withCredentials: true,
+                },
+
             })
         );
     }

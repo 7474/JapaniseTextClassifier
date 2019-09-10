@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form>
+        <form v-show="isLogin">
             <textarea v-model="jaText" placeholder="分類したい日本語"></textarea>
             <button type="button" v-on:click="onClick">classify</button>
         </form>
@@ -9,12 +9,16 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { idModule } from "../store/modules/id";
 
     @Component
     export default class Form extends Vue {
         // XXX こうした要素もローカルではなく $store に持つものなのか？
         // その場合は処理が成功したらクリアするのか？
         jaText: string = '';
+        get isLogin(): boolean {
+            return idModule.isLogin;
+        }
 
         public onClick() {
             console.log('onClick');
