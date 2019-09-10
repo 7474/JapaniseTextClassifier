@@ -30,12 +30,22 @@ namespace JapaniseTextClassifierFunction
         [OpenApiOperation("ClassifyJapaniseText", "classification")]
         [OpenApiRequestBody("application/json", typeof(Request))]
         [OpenApiResponseBody(HttpStatusCode.OK, "application/json", typeof(Response))]
-        public IActionResult Classify(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/classify")]Request body,
+        public async Task<IActionResult> Classify(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "v1/classify")]HttpRequest req,
             [Table("ClassifyResult")]ICollector<ResponseTableEntity> collector,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
+
+            var body = JsonConvert.DeserializeObject<Request>(await req.ReadAsStringAsync());
+            var authId = AuthId.From(req);
+            if (!authId.IsLogin)
+            {
+                return new UnauthorizedResult();
+            }
+
+            log.LogInformation(string.Join(",\n", req.Headers.Select(x => x.ToString())));
+            log.LogInformation(JsonConvert.SerializeObject(authId));
 
             // XXX ’ÇÕ—p‚ÌID‚ ‚Á‚½‹C‚ª‚·‚é‚Ì‚Å‚»‚¿‚ç‚ðŽæ‚è‚½‚¢ -> Œ©“–‚½‚ç‚È‚¢
             var id = Guid.NewGuid();
@@ -61,6 +71,9 @@ namespace JapaniseTextClassifierFunction
             {
                 PartitionKey = "ja-en",
                 RowKey = rowKey,
+                AuthIdp = authId.PrincipalIdp,
+                AuthId = authId.PrincipalId,
+                AuthName = authId.PrincipalName,
                 ResponseData = jsonResponse,
             };
             collector.Add(tableEntity);
@@ -114,6 +127,24 @@ namespace JapaniseTextClassifierFunction
             return new OkObjectResult(response);
         }
 
+        public class AuthId
+        {
+            public string PrincipalIdp { get; set; }
+            public string PrincipalId { get; set; }
+            public string PrincipalName { get; set; }
+
+            public bool IsLogin => !string.IsNullOrEmpty(PrincipalId);
+
+            public static AuthId From(HttpRequest req)
+            {
+                return new AuthId()
+                {
+                    PrincipalIdp = req.Headers["X-MS-CLIENT-PRINCIPAL-IDP"],
+                    PrincipalId = req.Headers["X-MS-CLIENT-PRINCIPAL-ID"],
+                    PrincipalName = req.Headers["X-MS-CLIENT-PRINCIPAL-NAME"],
+                };
+            }
+        }
         public class Request
         {
             [Required]
@@ -144,6 +175,9 @@ namespace JapaniseTextClassifierFunction
 
         public class ResponseTableEntity : TableEntity
         {
+            public string AuthIdp { get; set; }
+            public string AuthId { get; set; }
+            public string AuthName { get; set; }
             public string ResponseData { get; set; }
         }
 
