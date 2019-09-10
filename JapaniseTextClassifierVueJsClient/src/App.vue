@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <JtcHeader />
         <Home />
     </div>
 </template>
@@ -8,6 +9,7 @@
     import { Component, Vue } from 'vue-property-decorator';
     import Vuex from 'vuex';
     import store from './store';
+    import JtcHeader from './components/JtcHeader.vue';
     import Home from './components/Home.vue';
 
     Vue.use(Vuex);
@@ -15,7 +17,8 @@
     @Component({
         store,
         components: {
-            Home
+            JtcHeader,
+            Home,
         }
     })
     export default class App extends Vue { }
