@@ -1,15 +1,15 @@
 import { Module as Mod } from "vuex";
-import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
+import { VuexModule, Module, Mutation, Action, getModule } from "vuex-module-decorators";
 import { Response, ClassificationApi, Configuration } from "../../api";
+import store from "../";
 
-@Module
+@Module({ dynamic: true, store, name: "japaniseTextClassifier", namespaced: true })
 class JapaniseTextClassifier extends VuexModule {
-    classifyResults: Array<Response>;
+    classifyResults: Array<Response> = [];
     private classificationApi: ClassificationApi;
 
     constructor(options: Mod<ThisType<any>, any>) {
         super(options);
-        this.classifyResults = [];
         // XXX どこに持つのがいいの？
         this.classificationApi = new ClassificationApi(
             new Configuration({
@@ -19,7 +19,6 @@ class JapaniseTextClassifier extends VuexModule {
                 baseOptions: {
                     withCredentials: true,
                 },
-
             })
         );
     }
@@ -39,7 +38,7 @@ class JapaniseTextClassifier extends VuexModule {
         this.classifyResults = results;
     }
 
-    @Action({ commit: "addClassifyResult" })
+    @Action({ commit: "addClassifyResult", rawError: true })
     async classifyJapaniseText(jaText: string) {
         const result = await this.classificationApi.classifyJapaniseText({
             text: jaText,
@@ -58,4 +57,4 @@ class JapaniseTextClassifier extends VuexModule {
     }
 }
 
-export default JapaniseTextClassifier;
+export const japaniseTextClassifierModule = getModule(JapaniseTextClassifier);

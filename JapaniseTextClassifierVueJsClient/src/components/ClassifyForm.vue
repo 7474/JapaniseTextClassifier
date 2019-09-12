@@ -1,8 +1,8 @@
 <template>
     <div>
-        <form v-show="isLogin">
+        <form v-show="isLogin" :disabled="isBusy">
             <textarea v-model="jaText" placeholder="分類したい日本語"></textarea>
-            <button type="button" v-on:click="onClick">classify</button>
+            <button type="button" v-on:click="onClick" :disabled="isBusy">classify</button>
         </form>
     </div>
 </template>
@@ -10,21 +10,28 @@
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
     import { idModule } from "../store/modules/id";
+    import { japaniseTextClassifierModule } from "../store/modules/japanise-text-classifier";
 
     @Component
-    export default class Form extends Vue {
+    export default class ClassifyForm extends Vue {
         // XXX こうした要素もローカルではなく $store に持つものなのか？
         // その場合は処理が成功したらクリアするのか？
         jaText: string = '';
         get isLogin(): boolean {
             return idModule.isLogin;
         }
+        isBusy: boolean = false;
 
-        public onClick() {
+        async onClick() {
             console.log('onClick');
             console.log(this.$store.state);
-            // XXX 処理中をUIに反映するのはいつの時代も手間がかかりそうだ
-            this.$store.dispatch('classifyJapaniseText', this.jaText);
+            this.isBusy = true;
+            try {
+                await japaniseTextClassifierModule.classifyJapaniseText(this.jaText);
+            } finally {
+                this.isBusy = false;
+                this.jaText = "";
+            }
         }
     }
 </script>
