@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>JapaniseTextClassifierVueJsClient</h1>
-        <Form />
+        <classify-form />
         <hr />
         <result-list :results="results" />
     </div>
@@ -9,22 +9,23 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
-    // XXX HTML要素と同名はよくなさそう
-    import Form from './Form.vue';
+    import { japaniseTextClassifierModule } from "../store/modules/japanise-text-classifier";
+    import ClassifyForm from './ClassifyForm.vue';
     import ResultList from './ResultList.vue';
+    import { Response } from "../api";
 
     @Component({
         components: {
-            Form,
+            ClassifyForm,
             ResultList,
         },
     })
     export default class Home extends Vue {
-        private get results(): string {
-            return this.$store.state.classifier.classifyResults;
+        private get results(): Response[] {
+            return japaniseTextClassifierModule.classifyResults;
         }
         public created(): void {
-            this.$store.dispatch('loadResultList');
+            japaniseTextClassifierModule.loadResultList();
         }
     }
 </script>
