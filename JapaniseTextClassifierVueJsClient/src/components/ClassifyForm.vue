@@ -1,8 +1,16 @@
 <template>
-    <div>
+    <div class="container is-mobile">
         <form v-show="isLogin" :disabled="isBusy">
-            <textarea v-model="jaText" placeholder="分類したい日本語"></textarea>
-            <button type="button" v-on:click="onClick" :disabled="isBusy">classify</button>
+            <div class="field">
+                <div class="control">
+                    <textarea v-model="jaText" placeholder="分類したい日本語" class="textarea"></textarea>
+                </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="button" v-on:click="onClick" :disabled="isBusy" class="button is-primary">classify</button>
+                </div>
+            </div>
         </form>
     </div>
 </template>
