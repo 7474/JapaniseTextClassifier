@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container is-mobile">
         <ul>
             <li v-for="result in results">
                 <result :result="result" />

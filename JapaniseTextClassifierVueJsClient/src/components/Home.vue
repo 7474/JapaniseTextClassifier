@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>JapaniseTextClassifierVueJsClient</h1>
         <classify-form />
         <hr />
         <result-list :results="results" />

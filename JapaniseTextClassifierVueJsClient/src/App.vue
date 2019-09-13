@@ -1,7 +1,21 @@
 <template>
     <div id="app">
         <JtcHeader />
-        <Home />
+        <section class="hero">
+            <div class="hero-body">
+                <Home />
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    <b>JapaniseTextClassifier</b> (c) koudenpa.
+                </p>
+                <p>
+                    <a href="https://github.com/7474/JapaniseTextClassifier">GitHub repository</a>
+                </p>
+            </div>
+        </footer>
     </div>
 </template>
 

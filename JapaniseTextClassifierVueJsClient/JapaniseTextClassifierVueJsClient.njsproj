@@ -39,6 +39,7 @@
     <Content Include="libman.json" />
     <Content Include="public\favicon.ico" />
     <Content Include="public\index.html" />
+    <Content Include="public\brand.png" />
     <Content Include="src\App.vue" />
     <Content Include="src\components\ClassifyForm.vue" />
     <Content Include="src\components\JtcHeader.vue">
