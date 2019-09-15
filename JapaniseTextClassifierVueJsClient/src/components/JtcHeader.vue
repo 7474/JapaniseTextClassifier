@@ -4,7 +4,7 @@
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
                     <figure class="image is-32x32 is-inline-block">
-                        <img src="brand.png" alt="JapaniseTextClassifierVueJsClient">
+                        <img src="brand.png" alt="JapaniseTextClassifier">
                     </figure>
                 </a>
                 <div class="navbar-item">
