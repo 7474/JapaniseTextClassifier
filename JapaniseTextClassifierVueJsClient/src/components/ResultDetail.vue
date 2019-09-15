@@ -83,4 +83,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .card-footer-item {
+        flex-direction: column;
+    }
+    .card-footer-item .tags {
+        margin-bottom: 0;
+    }
 </style>
