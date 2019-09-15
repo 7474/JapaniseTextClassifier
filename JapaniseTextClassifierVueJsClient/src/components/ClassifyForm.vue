@@ -12,6 +12,11 @@
                 </div>
             </div>
         </form>
+        <div v-show="!isLogin" class="message is-info">
+            <div class="message-body">
+                <i>Login</i> すると日本語の短文が性的か、攻撃的か、を分類できます。
+            </div>
+        </div>
     </div>
 </template>
 
