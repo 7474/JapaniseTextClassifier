@@ -23,6 +23,7 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { Response } from "../api";
 
     @Component({
         filters: {
@@ -33,7 +34,7 @@
     })
     export default class ResultSummary extends Vue {
         @Prop()
-        private result!: string;
+        private result!: Response;
     }
 </script>
 
