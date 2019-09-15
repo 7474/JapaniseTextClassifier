@@ -3,7 +3,7 @@
         <JtcHeader />
         <section class="hero">
             <div class="hero-body">
-                <Home />
+                <router-view></router-view>
             </div>
         </section>
         <footer class="footer">
@@ -24,15 +24,15 @@
     import Vuex from 'vuex';
     import store from './store';
     import JtcHeader from './components/JtcHeader.vue';
-    import Home from './components/Home.vue';
+    import router from './router';
 
     Vue.use(Vuex);
 
     @Component({
         store,
+        router,
         components: {
             JtcHeader,
-            Home,
         }
     })
     export default class App extends Vue { }
