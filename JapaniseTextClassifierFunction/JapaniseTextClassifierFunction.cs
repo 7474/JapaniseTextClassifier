@@ -16,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -215,8 +216,8 @@ namespace JapaniseTextClassifierFunction
         [FunctionName("GetShareClassifyResult")]
         [OpenApiOperation("GetShareClassifyResult", "classification")]
         [OpenApiParameter("id", In = ParameterLocation.Path)]
-        [OpenApiResponseBody(HttpStatusCode.OK, "text/html", typeof(Response))]
-        public IActionResult GetShareClassifyResult(
+        [OpenApiResponseBody(HttpStatusCode.OK, "text/html", typeof(string))]
+        public HttpResponseMessage GetShareClassifyResult(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/classify/share/{id}")]HttpRequest req,
             [Table("ClassifyResult", "ja-en", "{id}")] ResponseTableEntity tableEntity,
             ILogger log)
@@ -249,7 +250,11 @@ namespace JapaniseTextClassifierFunction
   </body>
 </html>
 ";
-            return new OkObjectResult(html);
+            return new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(html, Encoding.UTF8, "text/html"),
+            };
         }
 
         [FunctionName("GetClassifyResult")]
