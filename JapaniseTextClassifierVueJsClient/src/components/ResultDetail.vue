@@ -73,6 +73,11 @@
             }
             return "";
         }
+        public async created(): Promise<void> {
+            if (!this.result) {
+                await japaniseTextClassifierModule.loadResult(this.$route.params.id);
+            }
+        }
     }
 </script>
 
