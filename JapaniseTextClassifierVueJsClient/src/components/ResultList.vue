@@ -2,7 +2,7 @@
     <div class="container is-mobile">
         <ul>
             <li v-for="result in results">
-                <result :result="result" />
+                <ResultSummary :result="result" />
             </li>
         </ul>
     </div>
@@ -10,16 +10,17 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
-    import Result from './ResultSummary.vue';
+    import ResultSummary from './ResultSummary.vue';
+    import { Response } from "../api";
     
     @Component({
         components: {
-            Result,
+            ResultSummary,
         },
     })
     export default class Home extends Vue {
         @Prop()
-        private results!: string;
+        private results!: Response[];
     }
 </script>
 

@@ -9,7 +9,7 @@
         <footer class="footer">
             <div class="content has-text-centered">
                 <p>
-                    <b>JapaniseTextClassifier</b> (c) koudenpa.
+                    <b>JapaniseTextClassifier</b> (c) <a href="https://twitter.com/koudenpa">koudenpa</a>.
                 </p>
                 <p>
                     <a href="https://github.com/7474/JapaniseTextClassifier">GitHub repository</a>

@@ -4,7 +4,7 @@
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
                     <figure class="image is-32x32 is-inline-block">
-                        <img src="brand.png" alt="JapaniseTextClassifierVueJsClient">
+                        <img src="brand.png" alt="JapaniseTextClassifier">
                     </figure>
                 </a>
                 <div class="navbar-item">
@@ -22,6 +22,9 @@
                                 <img :src="iconUrl" />
                             </figure>
                             @{{ userId }}
+                        </a>
+                        <a v-show="isLogin" :href="logoutUrl" class="button">
+                            Logout
                         </a>
                     </div>
                 </div>
@@ -74,11 +77,16 @@
         get loginUrl() {
             return "https://japanisetextclassifierfunction.azurewebsites.net/.auth/login/twitter?post_login_redirect_url=" + encodeURIComponent(window.location.toString());
         }
+        get logoutUrl() {
+            // XXX リダイレクト先としてはTopページが良さそう
+            return "https://japanisetextclassifierfunction.azurewebsites.net/.auth/logout?post_logout_redirect_uri=" + encodeURIComponent(window.location.toString());
+        }
 
         public created(): void {
             idModule.getAuthMe();
         }
     }
+
     // https://bulma.io/documentation/components/navbar/
     document.addEventListener('DOMContentLoaded', () => {
         // Get all "navbar-burger" elements
