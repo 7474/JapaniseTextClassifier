@@ -38,8 +38,8 @@
 
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item">
-                    </a>
+                    <router-link to="/" class="navbar-item">List</router-link>
+                    <!--
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">
                         </a>
@@ -48,6 +48,7 @@
                             </a>
                         </div>
                     </div>
+                    -->
                 </div>
                 <div class="navbar-end">
                 </div>

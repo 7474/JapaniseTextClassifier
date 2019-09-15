@@ -19,6 +19,11 @@
                 </progress>
             </div>
         </div>
+        <div class="card-footer">
+            <div class="card-footer-item">
+                <router-link :to="detailPath">Detail</router-link>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -45,6 +50,10 @@
     export default class ResultSummary extends Vue {
         @Prop()
         private result!: Response;
+
+        get detailPath(): string {
+            return "/detail/" + this.result.id;
+        }
     }
 </script>
 

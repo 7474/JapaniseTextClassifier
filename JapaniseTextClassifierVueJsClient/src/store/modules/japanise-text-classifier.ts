@@ -55,6 +55,13 @@ class JapaniseTextClassifier extends VuexModule {
         console.log(result);
         return result.data.items;
     }
+
+    @Action({ commit: "addClassifyResult" })
+    async loadResult(id: string) {
+        const result = await this.classificationApi.getClassifyResult(id);
+        console.log(result);
+        return result.data;
+    }
 }
 
 export const japaniseTextClassifierModule = getModule(JapaniseTextClassifier);
