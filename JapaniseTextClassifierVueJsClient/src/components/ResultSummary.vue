@@ -12,9 +12,9 @@
             <div v-for="category in result.categories" class="card-footer-item">
                 <div class="tags has-addons">
                     <span class="tag is-dark">{{ category.name }}</span>
-                    <span class="tag is-danger  ">{{ category.score | score }}</span>
+                    <span class="tag" :class="category.score | scoreClass">{{ category.score | score }}</span>
                 </div>
-                <progress class="progress is-danger" :value="category.score" max="1">
+                <progress class="progress " :class="category.score | scoreClass" :value="category.score" max="1">
                     {{ category.name }}: {{ category.score | score }}
                 </progress>
             </div>
@@ -30,6 +30,15 @@
         filters: {
             score(value: Number): string {
                 return (new Number(value)).toFixed(2);
+            },
+            scoreClass(value: Number): string {
+                if (value >= 0.8) {
+                    return "is-danger";
+                } else if (value >= 0.5) {
+                    return "is-warning";
+                } else {
+                    return "is-info";
+                }
             }
         }
     })
