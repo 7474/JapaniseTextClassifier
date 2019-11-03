@@ -1,4 +1,4 @@
-name: release/nuxt
+name: release nuxt
 
 on:
   push:
@@ -10,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: 'Login via Azure CLI'
-      uses: Azure/actions/login@master
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Setup Node 10.x
       uses: actions/setup-node@v1
       with:
