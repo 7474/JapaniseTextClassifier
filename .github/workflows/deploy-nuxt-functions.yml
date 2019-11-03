@@ -29,5 +29,5 @@ jobs:
       id: fa
       with:
         app-name: JapaniseTextClassifierNuxtJs
+        package: ./JapaniseTextClassifierNuxtJsClient
         publish-profile: ${{ secrets.JapaniseTextClassifierNuxtJsProfile }}
-        
