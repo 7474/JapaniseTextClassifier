@@ -1,0 +1,77 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "20:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: Microsoft.Azure.WebJobs.Extensions.Storage
+    versions:
+    - 4.0.3
+  - dependency-name: Newtonsoft.Json
+    versions:
+    - 12.0.3
+- package-ecosystem: npm
+  directory: "/JapaniseTextClassifierVueJsClient"
+  schedule:
+    interval: daily
+    time: "20:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+  - dependency-name: "@vue/cli-plugin-babel"
+    versions:
+    - 4.5.11
+  - dependency-name: "@vue/cli-service"
+    versions:
+    - 4.5.11
+  - dependency-name: "@vue/cli-plugin-typescript"
+    versions:
+    - 4.5.11
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: elliptic
+    versions:
+    - 6.5.3
+- package-ecosystem: npm
+  directory: "/JapaniseTextClassifierNuxtJsClient"
+  schedule:
+    interval: daily
+    time: "20:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+  - dependency-name: nuxt
+    versions:
+    - 2.14.12
+    - 2.15.0
+    - 2.15.1
+    - 2.15.2
+    - 2.15.3
+  - dependency-name: "@vue/test-utils"
+    versions:
+    - 1.1.2
+    - 1.1.3
+  - dependency-name: "@nuxtjs/axios"
+    versions:
+    - 5.12.5
+    - 5.13.0
+  - dependency-name: eslint-plugin-prettier
+    versions:
+    - 3.3.1
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: elliptic
+    versions:
+    - 6.5.3
+  - dependency-name: handlebars
+    versions:
+    - 4.7.6
